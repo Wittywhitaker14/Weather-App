@@ -22,7 +22,7 @@ THEN I am again presented with current and future conditions for that city
 
 ## Mock Up
 
-![Weather-App](/assets.images/06-server-side-apis-homework-demo.png)
+![Weather-App](/assets/images/06-server-side-apis-homework-demo.png)
 
 ## URLs
 
