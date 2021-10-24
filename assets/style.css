@@ -1,0 +1,6 @@
+header {
+    background-image: linear-gradient(to right, blue,black);
+}
+.btn.hover {
+border: 1px solid black;
+}
