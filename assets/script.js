@@ -11,7 +11,7 @@ var weatherData = function() {
         .then(function(response){
             if(response.ok) {
                 response.json().then(function(data){
-                    console.log("weatherData", data)
+                    // console.log("weatherData", data)
                     cityDate(data);
                     currentWeather(data);
                     searchHistoryBtn(data);
@@ -43,25 +43,26 @@ var currentWeather = function(data) {
 
     var uvi = function(cooridnates) {
         var uviUrl = "https://api.openweathermap.org/data/2.5/onecall?lat="+cooridnates.Latt+"&lon="+cooridnates.Long+"&appid=a48b25c1208901ef94b2655363273fbd";
-
+        
         fetch(uviUrl)
-            .then(function(response){
-                if (response.ok) {
-                    response.json().then(function(data){
-                        $('#warning').text(data.current.uvi);
-                        if (data.current.uvi >= 5){
-                            $("#warning").addClass('bg-danger')
-                        } else if (data.current.uvi <  5 && data.current.uvi >=3){
-                            $("#warning").addClass('bg-warning')
-                        } else {
-                            $("#warning").addClass('bg-success')
-                        }
-                    })
-                }
-            });
+        .then(function(response){
+            if (response.ok) {
+                response.json().then(function(data){
+                    console.log(data)
+                    $('#warning').text(data.current.uvi);
+                    if (data.current.uvi >= 5){
+                        $("#warning").addClass('bg-danger')
+                    } else if (data.current.uvi <  5 && data.current.uvi >= 3){
+                        $("#warning").addClass('bg-warning')
+                    } else {
+                        $("#warning").addClass('bg-success')
+                    }
+                })
+            }
+        });
     }
     uvi(cooridnates);
-}
+};
 
 var searchHistoryBtn = function(data) {
     var historyBtn = $("<button>")
@@ -81,6 +82,31 @@ var saveHistory = function() {
     }
     localStorage.setItem('cities', JSON.stringify(citiesArr))
 }
+
+$("#history").on('click', 'button', function(){
+    var searchedBtn = $(this).text().trim()
+    reloadBtn(searchedBtn);
+})
+
+var reloadBtn = function(searchedBtn){
+    searchedBtn.replace('', '%20');
+    var apiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchedBtn + "&appid=a48b25c1208901ef94b2655363273fbd&units=imperial";
+
+    fetch(apiUrl)
+        .then(function(response){
+            if(response.ok) {
+                response.json().then(function(data){
+                    // console.log("weatherData", data)
+                    cityDate(data);
+                    currentWeather(data);
+                })
+            } else {
+                alert('Please enter a valid city')
+            };
+        })
+        .catch(function (error) {
+            alert('Unable to reach GitHub')
+        });}
 
 var reloadHistory = function(){
     for (let i = 0; i < searchHistory.length; i++) {
