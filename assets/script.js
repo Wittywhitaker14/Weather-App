@@ -33,12 +33,34 @@ var currentWeather = function(data) {
     var temperature = data.list[0].main.temp
     var wind = data.list[0].wind.speed
     var humidity = data.list[0].main.humidity
-
+    var cooridnates = {
+        Latt: data.city.coord.lat,
+        Long: data.city.coord.lon
+    }
     $("#temp").text("Temp: "+temperature+"°F")
     $("#wind").text("Wind: "+wind+"mph")
     $("#humidity").text("Humidity: "+humidity+"%")
 
+    var getUvi = function(cooridnates) {
+        var uviUrl = "https://api.openweathermap.org/data/2.5/onecall?lat="+cooridnates.Latt+"&lon="+cooridnates.Long+"&appid=a48b25c1208901ef94b2655363273fbd";
 
+        fetch(uviUrl)
+            .then(function(response){
+                if (response.ok) {
+                    response.json().then(function(data){
+                        $('#warning').text(data.current.uvi);
+                        if (data.current.uvi >= 5){
+                            $("#warning").addClass('bg-danger')
+                        } else if (data.current.uvi <  5 && data.current.uvi >=3){
+                            $("#warning").addClass('bg-warning')
+                        } else {
+                            $("#warning").addClass('bg-success')
+                        }
+                    })
+                }
+            });
+    }
+    getUvi(cooridnates);
 }
 
 var searchHistoryBtn = function(data) {
@@ -62,7 +84,7 @@ var saveHistory = function() {
 
 
 $('#searchBar').on('click', 'button', function() {
-    console.log('clicked');
+    // console.log('clicked');
     weatherData();
     $('#textInput').val('')
 
