@@ -1,4 +1,3 @@
-var apiKey = "a48b25c1208901ef94b2655363273fbd"
 var searchHistory = JSON.parse(localStorage.getItem("history")) || [];
 
 var weatherData = function() {
@@ -27,7 +26,7 @@ var cityDate = function(data) {
     $('#displayCurrent').text(data.city.name + " (" + moment().format('MM/DD/YYYY') + ")")
 }
 
-
+var currentWeather
 
 $('#searchBar').on('click', 'button', function() {
     console.log('clicked');
