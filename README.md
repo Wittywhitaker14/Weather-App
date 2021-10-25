@@ -28,5 +28,8 @@ THEN I am again presented with current and future conditions for that city
 
 The URL of the deployed application.
 
+https://wittywhitaker14.github.io/Weather-App/
 
 The URL of the GitHub repository. Give the repository a unique name and include a README describing the project.
+
+https://github.com/Wittywhitaker14/Weather-App
