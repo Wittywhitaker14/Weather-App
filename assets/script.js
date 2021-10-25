@@ -12,6 +12,7 @@ var weatherData = function() {
                 response.json().then(function(data){
                     console.log("weatherData", data)
                     cityDate(data);
+                    currentWeather(data);
                 })
             } else {
                 alert('Please enter a valid city')
@@ -26,7 +27,15 @@ var cityDate = function(data) {
     $('#displayCurrent').text(data.city.name + " (" + moment().format('MM/DD/YYYY') + ")")
 }
 
-var currentWeather
+var currentWeather = function(data) {
+    var temperature = data.list[0].main.temp
+    var wind = data.list[0].wind.speed
+    var humidity = data.list[0].main.humidity
+
+    $("#temp").text("Temp: "+temperature+"°F")
+    $("#wind").text("Wind: "+wind+"mph")
+    $("#humidity").text("Humidity: "+humidity+"%")
+}
 
 $('#searchBar').on('click', 'button', function() {
     console.log('clicked');
