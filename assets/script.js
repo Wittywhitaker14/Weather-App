@@ -1,5 +1,5 @@
-var searchHistory = JSON.parse(localStorage.getItem("history")) || [];
-var cities
+var searchHistory = JSON.parse(localStorage.getItem("cities")) || [];
+
 
 var weatherData = function() {
     var cityInput = $('#textInput').val().trim();
@@ -41,7 +41,7 @@ var currentWeather = function(data) {
     $("#wind").text("Wind: "+wind+"mph")
     $("#humidity").text("Humidity: "+humidity+"%")
 
-    var getUvi = function(cooridnates) {
+    var uvi = function(cooridnates) {
         var uviUrl = "https://api.openweathermap.org/data/2.5/onecall?lat="+cooridnates.Latt+"&lon="+cooridnates.Long+"&appid=a48b25c1208901ef94b2655363273fbd";
 
         fetch(uviUrl)
@@ -60,7 +60,7 @@ var currentWeather = function(data) {
                 }
             });
     }
-    getUvi(cooridnates);
+    uvi(cooridnates);
 }
 
 var searchHistoryBtn = function(data) {
@@ -82,12 +82,20 @@ var saveHistory = function() {
     localStorage.setItem('cities', JSON.stringify(citiesArr))
 }
 
+var reloadHistory = function(){
+    for (let i = 0; i < searchHistory.length; i++) {
+        var historyBtn = $("<button>")
+        .addClass('btn bg-secondary m-1 text-light')
+        .text(searchHistory[i])
+        $('#history').append(historyBtn);
+    }
+}
+reloadHistory();
 
 $('#searchBar').on('click', 'button', function() {
     // console.log('clicked');
     weatherData();
     $('#textInput').val('')
-
 });
 
 
